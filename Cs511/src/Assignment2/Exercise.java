@@ -22,14 +22,18 @@ public class Exercise {
 	this.weight = weight;
 	this.duration = duration;
     }
-    public static Exercise generateRandom(Map<WeightPlateSize, Integer> weight) {
+    public static Exercise generateRandom(Map<WeightPlateSize, Integer> resourceMap) {
 	ApparatusType at = Enums.random(ApparatusType.class);
 	int duration = (int)(Math.random() * 1000) + 1000;
-	weight = new HashMap<WeightPlateSize,Integer>();
-//	
-//	
-	Exercise e = new Exercise(at, weight, duration);
-	return e;
+	Map<WeightPlateSize,Integer> weight = new HashMap<>();
+	for (WeightPlateSize weightKind : resourceMap.keySet()) {
+	    weight.put(weightKind, 0);
+	}
+	for (int i = 0; i < Math.random() * 9 + 1; i++) {
+	    WeightPlateSize wps = Enums.random(WeightPlateSize.class);
+	    weight.put(wps,weight.get(wps)+1);
+	}
+	return new Exercise(at, weight, duration);
     }
     
 }

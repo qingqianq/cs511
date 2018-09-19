@@ -31,7 +31,7 @@ public class Client {
 	    int sno = getSempahoreNo(e.getAt());
 	    Gym.at[sno].acquire();
 	    Map<WeightPlateSize, Integer> weight = e.getWeight();
-	    for
+//	    for
 	}
     }
     private int getSempahoreNo(ApparatusType at) {

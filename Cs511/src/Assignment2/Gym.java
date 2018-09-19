@@ -43,8 +43,11 @@ public class Gym  implements Runnable{
 	        @Override
 	        public void run() {
 	    		Client client = Client.generateRandom(id, noOfWeightPlates);
-	    		client.workout();
-	    		
+	    		try {
+			    client.workout();
+			} catch (InterruptedException e) {
+			    e.printStackTrace();
+			}
 	        }
 	    });
 	}
