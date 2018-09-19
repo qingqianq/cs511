@@ -1,4 +1,4 @@
-package assignment2;
+package Assignment2;
 
 public enum ApparatusType {
     LEGPRESSMACHINE , BARBELL , HACKSQUATMACHINE , LEGEXTENSIONMACHINE , 
