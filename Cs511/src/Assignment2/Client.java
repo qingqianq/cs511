@@ -25,7 +25,7 @@ public class Client {
     /*
      * When there are 2 source S left, and 2 clients A,B need 2 sources S each
      * Each of them execute 1 acquire and donot release, it may be deadlock.
-     * Mutex Semaphore(1). 
+     * Use mutex Semaphore(1). 
      */
     public void workout() throws InterruptedException {
 	for (Exercise e : routine) {
