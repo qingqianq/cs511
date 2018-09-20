@@ -2,10 +2,6 @@ package Assignment2;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-
-
-
 
 public class Client {
     private int id;
@@ -26,13 +22,68 @@ public class Client {
 	}
 	return client;
     }
+    /*
+     * When there are 2 source S left, and 2 clients A,B need 2 sources S each
+     * Each of them execute 1 acquire and donot release, it may be deadlock.
+     * Mutex Semaphore(1). 
+     */
     public void workout() throws InterruptedException {
 	for (Exercise e : routine) {
+	    Gym.mutex.acquire();
+	    System.out.println("Client :" + this.id + " is using " + e.toString());
 	    int sno = getSempahoreNo(e.getAt());
 	    Gym.at[sno].acquire();
 	    Map<WeightPlateSize, Integer> weight = e.getWeight();
-//	    for
+	    for (WeightPlateSize size : weight.keySet()) {
+		switch (size) {
+		case SMALL_3KG:
+		    for (int i = 0; i < weight.get(size); i++) {
+			Gym.smallPlates.acquire();	
+		    }
+		    break;
+		case MEDIUM_5KG:
+		    for (int i = 0; i < weight.get(size); i++) {
+			Gym.mediumPlates.acquire();
+		    }
+		    break;
+		case LARGE_10KG:
+		    for (int i = 0; i < weight.get(size); i++) {
+			Gym.largePlates.acquire();
+		    }
+		    break;
+		default:
+		   throw new RuntimeException("err in count weightSize");
+		}
+	    }
+	    Gym.showLeft();
+	    Gym.mutex.release();
+	    Thread.sleep(e.getDuration());
+	    Gym.at[sno].release();
+	    for (WeightPlateSize size : weight.keySet()) {
+		switch (size) {
+		case SMALL_3KG:
+		    for (int i = 0; i < weight.get(size); i++) {
+			Gym.smallPlates.release();	
+		    }
+		    break;
+		case MEDIUM_5KG:
+		    for (int i = 0; i < weight.get(size); i++) {
+			Gym.mediumPlates.release();
+		    }
+		    break;
+		case LARGE_10KG:
+		    for (int i = 0; i < weight.get(size); i++) {
+			Gym.largePlates.release();
+		    }
+		    break;
+		default:
+		   throw new RuntimeException("err in release weightSize");
+		}
+	    }
+	    System.out.println("Client : " +this.id + " finishes " +e.toString());
+	    Gym.showLeft();
 	}
+	System.out.println("Client :" + this.id + " finishes all exercise.");
     }
     private int getSempahoreNo(ApparatusType at) {
 	switch (at) {

@@ -24,7 +24,7 @@ public class Exercise {
     }
     public static Exercise generateRandom(Map<WeightPlateSize, Integer> resourceMap) {
 	ApparatusType at = Enums.random(ApparatusType.class);
-	int duration = (int)(Math.random() * 1000) + 1000;
+	int duration = (int)(Math.random() * 500) + 200;
 	Map<WeightPlateSize,Integer> weight = new HashMap<>();
 	for (WeightPlateSize weightKind : resourceMap.keySet()) {
 	    weight.put(weightKind, 0);
@@ -34,6 +34,12 @@ public class Exercise {
 	    weight.put(wps,weight.get(wps)+1);
 	}
 	return new Exercise(at, weight, duration);
+    }
+    @Override
+    public String toString() {
+	return at + " ApparatusType" +", "+ weight.get(WeightPlateSize.SMALL_3KG) + " of 3kg size, "+
+		weight.get(WeightPlateSize.MEDIUM_5KG) + " of 5kg size, "+  weight.get(WeightPlateSize.LARGE_10KG) +" of 10kg size," +
+		"duration = " + duration +"ms";
     }
     
 }
