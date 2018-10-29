@@ -1,18 +1,18 @@
 -module(sensor).
 -compile(export_all).
--author("Guangqiqing").
+-author("Guangqiqing,Bingyingchen").
 
 sensor(Watcher,SenserId) ->
     Measurement = rand:uniform(11),
     if
 	Measurement == 11 -> 
-						% Crash statemnt
-	    exit(anomalous_reading);
+	    Watcher!{'EXIT',self(),SenserId,anomalous_reading},   % Crash statemnt
+	    io:format("there is a crash, crashId : ~p~n",[SenserId]),
+	    exit(anomalous_reading); % 
 	true -> 
-	    Watcher!{SenserId, Measurement}
+	    Watcher!{self(),SenserId, Measurement}
     end,
     receive
-	{_}->
-	    timer:sleep(rand:uniform(10000))
+	{sleep}->
+	    timer:sleep(rand:uniform(1000))
     end.
-
