@@ -23,7 +23,7 @@ createwatcherlist(Num,List,Id) when length(List) == 10 ->
 						%  io:format("Num ~p",[Num]),
     spawn(?MODULE,createwatcherlist,[Num,[],Id]),
 						%if full create new spawn to  open new 10 senser.
-						%io:format("Num ~p~n",[Num]),
+						%io:format("Num ~p~n",[Num]), 
 						%io:format("length: ~p",[length(List)]),
     startWatch(List);
 createwatcherlist(Num,List,Id) -> 
@@ -56,4 +56,9 @@ startWatch(List) ->
     end.
 
 start()->
-    watcher(300000).
+    {ok, [ N ]} = io:fread("enter number of sensors> ", "~d"),
+    if N =< 1 -> 
+            io:fwrite("setup: range must be at least 2~n",[]);
+       true ->
+            watcher(N)
+    end.
