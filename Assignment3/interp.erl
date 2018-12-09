@@ -121,10 +121,13 @@ valueOf(Exp,Env) ->
             Bool = {num,0} =:= valueOf(ZeroExp,Env),
             {bool,Bool};
         {ifThenElseExp,IfExp,ThenExp,ElseExp} ->
-            IfCondition = boolVal2Bool(IfExp),
+            % IfCondition = boolVal2Bool(IfExp),
             if 
-                true == IfCondition -> valueOf(ThenExp,Env);
-                true ->  valueOf(ElseExp,Env)
+                IfExp == true -> 
+                    valueOf(ThenExp,Env);
+                IfExp == false ->
+                     valueOf(ElseExp,Env);
+                true -> valueOf({ifThenElseExp, boolVal2Bool(valueOf(IfExp, Env)), ThenExp, ElseExp}, Env)
             end;
         {letExp,IdE, SrcExp, DesExp} -> 
             {id,_,Id} = IdE,
