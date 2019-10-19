@@ -1,2 +1,2 @@
-pan.* linguist-vendored=false
-*.c linguist-vendored=false
+*/pan.* linguist-vendored
+*/*.c linguist-vendored
